@@ -119,8 +119,7 @@
             background-image: url('bg.png');
             background-size: cover;
             background-position: center;
-            /* Remove this line if it's there: */
-            /* background: linear-gradient(...); */
+            padding-top: 80px;
         }
 
         /* MODERN CSS FEATURE: Backdrop filter for frosted glass effect */
@@ -283,9 +282,15 @@
            ============================================ */
         @media (max-width: 768px) {
             nav ul {
-                flex-direction: column;
                 gap: var(--spacing-sm);
-                align-items: center;
+                /* Smaller gap on mobile */
+            }
+
+            nav a {
+                padding: var(--spacing-xs);
+                /* Smaller padding on mobile */
+                font-size: 0.9rem;
+                /* Slightly smaller text */
             }
 
             .hero-content {
