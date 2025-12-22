@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Coaching - Your Journey to Restoration</title>
+    <style>
+        /* ============================================
+           CSS CUSTOM PROPERTIES - Color Palette
+           ============================================ */
+        :root {
+            /* Primary Colors */
+            --color-dark-blue: #1a4d6d;
+            --color-medium-blue: #2e6b8f;
+            --color-light-blue: #6ba3c5;
+            --color-pale-blue: #a8d5e6;
+
+            /* Neutrals */
+            --color-white: #ffffff;
+            --color-off-white: #f8f9fa;
+            --color-light-gray: #e9ecef;
+            --color-text-dark: #2c3e50;
+            --color-text-light: #ffffff;
+
+            /* Semantic Colors */
+            --color-background: var(--color-off-white);
+            --color-nav-bg: var(--color-dark-blue);
+            --color-heading: var(--color-dark-blue);
+            --color-accent: var(--color-light-blue);
+            --color-accent-hover: var(--color-medium-blue);
+
+            /* Spacing System */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem;
+
+            /* Typography - Fluid with clamp() */
+            --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+            --font-size-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+            --font-size-xl: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+            --font-size-xxl: clamp(2.5rem, 2rem + 2vw, 4rem);
+
+            /* Transitions */
+            --transition-smooth: all 0.3s ease;
+            --transition-slow: all 0.6s ease;
+        }
+
+        /* ============================================
+           BASE STYLES & RESET
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            /* MODERN CSS FEATURE: Smooth scroll behavior */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: var(--font-size-base);
+            line-height: 1.7;
+            color: var(--color-text-dark);
+            background-color: var(--color-background);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--color-dark-blue), var(--color-medium-blue));
+            padding: var(--spacing-sm) var(--spacing-md);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        nav a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           HERO SECTION - Background Image
+           ============================================ */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            /* Remove this line if it's there: */
+            /* background: linear-gradient(...); */
+        }
+
+        /* MODERN CSS FEATURE: Backdrop filter for frosted glass effect */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-xxl);
+            color: var(--color-white);
+            margin-bottom: var(--spacing-md);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: var(--font-size-lg);
+            color: var(--color-white);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ============================================
+           SECTION LAYOUT - CSS Grid
+           ============================================ */
+        section:not(.hero) {
+            padding: var(--spacing-xl) var(--spacing-md);
+            max-width: 1200px;
+            margin: 0 auto;
+
+            /* SCROLL ANIMATION: Initial state (will be animated in) */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-slow);
+        }
+
+        /* SCROLL ANIMATION: Active state when visible */
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            font-size: var(--font-size-xl);
+            color: var(--color-heading);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        /* Decorative underline for headings */
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-light-blue), var(--color-medium-blue));
+            border-radius: 2px;
+        }
+
+        section p {
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-dark);
+        }
+
+        /* ============================================
+           ALTERNATING SECTION BACKGROUNDS
+           ============================================ */
+        .section-alt {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        #my-story {
+            background: linear-gradient(to bottom, var(--color-off-white), var(--color-white));
+        }
+
+        #collections {
+            background: linear-gradient(135deg, var(--color-pale-blue) 0%, var(--color-off-white) 100%);
+        }
+
+        #services {
+            background-color: var(--color-white);
+        }
+
+        /* ============================================
+           COLLECTIONS SECTION - Special Styling
+           ============================================ */
+        #collections {
+            text-align: center;
+        }
+
+        .collection-intro {
+            font-style: italic;
+            font-size: var(--font-size-lg);
+            color: var(--color-medium-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* ============================================
+           SERVICES SECTION - CSS Grid Layout
+           ============================================ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, var(--color-light-blue), var(--color-medium-blue));
+            padding: var(--spacing-md);
+            border-radius: 12px;
+            color: var(--color-white);
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card h3 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            background: linear-gradient(135deg, var(--color-dark-blue), var(--color-medium-blue));
+            color: var(--color-white);
+            text-align: center;
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+
+        footer h3 {
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+        }
+
+        footer p {
+            color: var(--color-pale-blue);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                align-items: center;
+            }
+
+            .hero-content {
+                padding: var(--spacing-md);
+            }
+
+            section {
+                padding: var(--spacing-md) var(--spacing-sm);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#my-story">My Story</a></li>
+            <li><a href="#collections">My Collections</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Connect</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section with Background Image -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Restoring Your Journey</h1>
+            <p>Partnering with you to reach your goals and restore what has been lost</p>
+        </div>
+    </section>
+
+    <!-- My Story Section -->
+    <section id="my-story">
+        <h2>My Story</h2>
+        <p>In the short time I have lived, I have had a myriad of experiences that have shaped and molded me. Some in a
+            positive way and some in a painful way.</p>
+
+        <p>My school years were a difficult journey, mentally and emotionally I felt very insecure.</p>
+
+        <p>I have since learned so much in how to cope with loss and pain at a deep level and how to restore the years
+            the locusts have eaten.</p>
+
+        <p>I have been drawn to sit with people, hear their stories and partner with them to develop a plan to restore
+            areas of being uncertain and unsure where to go next.</p>
+
+        <p>I went to get a degree and to be certified along with countless therapy sessions and being open to learn more
+            by reading a lot of books.</p>
+
+        <p>I have had mentors, professors, and small group leaders speak into my life and restore so much of my past to
+            become the man I was created with the gifting my creator endowed me with.</p>
+
+        <p>I have a huge heart for men who maybe didn't have a father they admired. All men have a father wound. I had
+            no idea how to be a dad and although I made many mistakes as a dad I also learned from a lot of men I looked
+            up to who coached me to become a better man in each stage of my manhood.</p>
+    </section>
+
+    <!-- My Collections Section -->
+    <section id="collections">
+        <h2>My Collections</h2>
+        <p class="collection-intro">Thoughts that inspired me on my journey to restoration</p>
+
+        <p>I have kept a collection of thoughts from over 25yr from seminary and seminars to books and emails and some
+            that I have carved out from solitude.</p>
+
+        <p>I hope they impact you as they have impacted me.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section-alt">
+        <h2>My Services</h2>
+        <p>Coaching that partners with you to reach your goals and desires.</p>
+
+        <p>Sometimes just being able to find a safe place to express what's on your heart and mind is all it takes to
+            move forward in life.</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>What I Offer - Coaching</h3>
+                <p>Confidential one on one support and encouragement, with no judgment</p>
+            </div>
+
+            <div class="service-card">
+                <h3>A Safe Space</h3>
+                <p>A place where you can express what's on your heart and mind without fear</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Partnership</h3>
+                <p>Working together to develop a plan to move forward in your journey</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact Section -->
+    <footer id="contact">
+        <h3>Let's Connect</h3>
+        <p>Ready to begin your journey to restoration?</p>
+        <p>Contact information here</p>
+    </footer>
+
+    <!-- JavaScript for Scroll Animations -->
+    <script>
+        // ============================================
+        // INTERSECTION OBSERVER for scroll animations
+        // ============================================
+
+        // Create an Intersection Observer to watch for sections entering viewport
+        const observerOptions = {
+            threshold: 0.15, // Trigger when 15% of the section is visible
+            rootMargin: '0px 0px -50px 0px' // Slight offset from bottom
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // When section enters viewport, add 'visible' class
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections except the hero
+        const sections = document.querySelectorAll('section:not(.hero)');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Optional: Add active state to nav links on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (window.scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.backgroundColor = '';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
